@@ -128,7 +128,7 @@ class AVLTree:
         elif key > node.key:
             return self._search(node.right, key)
 
-    # public wrapper that kickstarts the in-class recursive helper, yields all key value pairs in sorted order
+    # public wrapper that kickstarts the private recursive helper, yields all key value pairs in sorted order
     def in_order_traversal(self):
         items = []
         self._in_order(self.root, items)
