@@ -53,3 +53,26 @@ class TreeMap:
 
     def items(self):
         return self.tree.in_order_traversal()
+
+# return all words and their frequencies that fall alphebetically between start and end points, inclusively
+    def range_query(self, start, end):
+        results = []
+# leverage the already sorted in_order_traversal and use comparison operators to find the bounds of the segment to be returned
+        for key, value in self.tree.in_order_traversal():
+            if key < start:
+                continue
+            if key > end:
+                break
+            results.append((key, value))
+        return results
+# return all words and their frequencies in alphabetical order
+    def alphabetical_word_report(self):        
+        for word, count in self.items():
+            print(f"Word: {word}, Word count: {count}")
+
+# returns all words starting with a particular prefix. uses the range_query method to find the bound where all the prefixes
+# exist, starting the range with the prefix exactly and then changing the end bound to be the prefixes last letter +1, like vamp - vamq
+# anything within the range would start with prefix vamp
+    def prefix_search(self, prefix):
+        end = prefix[:-1] + chr(ord(prefix[-1]) + 1)
+        return self.range_query(prefix, end)

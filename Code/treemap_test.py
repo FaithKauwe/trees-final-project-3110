@@ -93,5 +93,40 @@ class TreeMapTest(unittest.TestCase):
         assert expected_freq * 0.9 <= fish_freq <= expected_freq * 1.1
 
 
+# verify the requested range of alphabetical responses is correctly returned
+    def test_range_query(self):
+        tm = TreeMap()
+        for word in ["abbey", "blood", "castle", "dracula", "evil"]:
+            tm.add_count(word)
+        results = tm.range_query("blood", "dracula")
+        keys = [key for key, count in results]
+        assert keys == ["blood", "castle", "dracula"]
+
+# if the range query has no matches, should return an empty list
+    def test_range_query_no_matches(self):
+        tm = TreeMap()
+        for word in ["abbey", "blood", "castle"]:
+            tm.add_count(word)
+        results = tm.range_query("dog", "fish")
+        assert results == []
+
+# make sure the prefix search is grabbing the right words
+    def test_prefix_search(self):
+        tm = TreeMap()
+        for word in ["van", "vampire", "vampires", "vampiric", "vast"]:
+            tm.add_count(word)
+        results = tm.prefix_search("vamp")
+        keys = [key for key, count in results]
+        assert keys == ["vampire", "vampires", "vampiric"]
+
+# if there are no matches for prefix search, should return empty list 
+    def test_prefix_search_no_matches(self):
+        tm = TreeMap()
+        for word in ["abbey", "blood", "castle"]:
+            tm.add_count(word)
+        results = tm.prefix_search("zom")
+        assert results == []
+
+
 if __name__ == '__main__':
     unittest.main()
