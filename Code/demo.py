@@ -86,7 +86,22 @@ def main():
         print(f"  Sentence {i+1}: {sentence}")
         print()
 
-    divider("7. ALL TESTS PASSING")
+    divider("7. PREFIX SEARCH — TreeMap vs Markov Chain")
+
+    prefix = "night"
+    print(f"  Prefix: '{prefix}'")
+    print()
+    print(f"  TreeMap (whole book frequencies):")
+    for word, count in tm.prefix_search(prefix):
+        print(f"    {word:<20} {count:>5}")
+    print()
+    print(f"  Markov Chain (what follows 'night'):")
+    night_histogram = mc.markov_chain.get(prefix)
+    if night_histogram:
+        for word, count in night_histogram.items():
+            print(f"    {word:<20} {count:>5}")
+
+    divider("8. ALL TESTS PASSING")
 
     import subprocess
     subprocess.run(["python3", "-m", "pytest", "avltree_test.py", "treemap_test.py", "-v"])
