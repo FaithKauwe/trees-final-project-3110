@@ -1,8 +1,10 @@
 from treemap import TreeMap
 from markov import MarkovChain
+import time
 
 # run python3 demo.py from the Code/ directory.
 
+# reads the file, returns clean list of words
 def load_words(filename):
     import re
     with open(filename, 'r') as f:
@@ -28,10 +30,14 @@ def main():
 
     divider("1. BUILDING TREEMAP (AVL Tree-backed word frequency map)")
 
+    # load the clean list of words into the treemap
+    start = time.time()
     tm = TreeMap(words)
+    elapsed = time.time() - start
     print(f"Unique words (types): {tm.types}")
     print(f"Total words (tokens): {tm.tokens}")
     print(f"AVL tree root height: {tm.tree.root.height}")
+    print(f"TreeMap built in {elapsed:.3f} seconds")
 
     divider("2. WORD FREQUENCY LOOKUPS — O(log n) guaranteed")
 
@@ -69,8 +75,11 @@ def main():
     divider("6. MARKOV CHAIN SENTENCE GENERATION (powered by TreeMap)")
 
     print("Building Markov chain...")
+    start = time.time()
     mc = MarkovChain(words)
+    elapsed = time.time() - start
     print(f"Words in chain: {len(mc.markov_chain)}")
+    print(f"Markov chain built in {elapsed:.3f} seconds")
     print()
     for i in range(5):
         sentence = mc.walk(15)
